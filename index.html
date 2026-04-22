@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación Renata Mailen - Frozen Magic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Mountains+of+Christmas:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --azul-muy-pálido: #F0FBFF;
+            --azul-cielo: #E0F7FA;
+            --azul-fuerte-hielo: #4DD0E1; /* Un cyan más vivo */
+            --blanco: #FFFFFF;
+            --plata-brillante: #E0E0E0;
+            --lila-suave: #E1BEE7;
+            --texto-oscuro: #37474F;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            color: var(--texto-oscuro);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
+        /* =========================================
+           FONDO MÁGICO CON FOTOGRAFÍA PERSONALIZADA
+           ========================================= */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3; /* Fondo más profundo */
+            
+            /* --- INSTRUCCIONES PARA TU FOTO --- */
+            /* 1. Sube tu foto a GitHub en la misma carpeta que este archivo index.html */
+            /* 2. Reemplaza 'tu-foto-de-fondo.jpg' por el nombre exacto de tu archivo */
+            /* background-image: url('nieve.jpg'); /* <--- DESCOMENTA ESTA LÍNEA (quita los //) Y PON TU FOTO */
+            
+            /* Configuraciones para que la foto se vea bien */
+            background-size: cover; /* Cubre toda la pantalla */
+            background-position: center; /* Centrada */
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* No se mueve al hacer scroll */
+
+            /* Si no pones foto, se usará este degradado base */
+            background-color: var(--azul-muy-pálido);
+            background-image: linear-gradient(135deg, var(--lila-suave) 0%, var(--azul-muy-pálido) 50%, var(--azul-cielo) 100%);
+        }
+
+        /* Capa superpuesta opcional: Mantiene la textura de hielo sobre tu foto */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2; /* Sobre la foto, bajo el contenido */
+            opacity: 0.3; /* Ajusta la opacidad (0.1 a 1.0) para que tu foto se vea más o menos */
+            background-image: 
+                linear-gradient(30deg, transparent 40%, var(--blanco) 40%, var(--blanco) 50%, transparent 50%),
+                linear-gradient(150deg, transparent 45%, var(--azul-fuerte-hielo) 45%, var(--azul-fuerte-hielo) 48%, transparent 48%),
+                linear-gradient(110deg, transparent 30%, var(--blanco) 30%, var(--blanco) 45%, transparent 45%);
+            background-size: 200px 200px;
+            background-repeat: repeat;
+            pointer-events: none;
+        }
+
+        /* --- Animación de Nieve --- */
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: var(--blanco);
+            user-select: none;
+            text-shadow: 0 0 5px var(--azul-fuerte-hielo);
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(105vh) rotate(360deg); }
+        }
+
+        /* --- Efecto Sobre de Carta --- */
+        #envelope-wrapper {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(135deg, var(--plata-brillante), var(--blanco));
+            cursor: pointer;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            overflow: visible;
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            z-index: 2;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #BDBDBD;
+            transform-origin: top;
+            transition: transform 0.8s ease-in-out;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .envelope.open::before {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 45%;
+            color: #546E7A;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .ice-seal {
+            position: absolute;
+            top: 80px;
+            left: 125px;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, var(--azul-fuerte-hielo), #00ACC1);
+            border-radius: 50%;
+            z-index: 3;
+            box-shadow: 0 0 15px rgba(77, 208, 225, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--blanco);
+            font-size: 1.5rem;
+            transition: opacity 0.5s;
+        }
+
+        .envelope.open .ice-seal {
+            opacity: 0;
+        }
+
+        /* --- Contenido Principal --- */
+        #main-content {
+            display: none;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Contenedor blanco semi-transparente para legibilidad */
+        .glass-container {
+            background: rgba(255, 255, 255, 0.8); /* Ligeramente más opaco para asegurar lectura sobre foto */
+            backdrop-filter: blur(8px); /* Más desenfoque para resaltar el contenido */
+            border-radius: 30px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 700px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .name-title {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 4.5rem;
+            background: linear-gradient(to bottom, #0277BD, #4DD0E1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 40px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s ease-out;
+            text-shadow: 2px 2px 0 var(--blanco);
+        }
+
+        .name-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .phrase {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #546E7A;
+        }
+
+        .info-section {
+            border-top: 1px solid rgba(0,0,0,0.08);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            padding: 20px 0;
+            margin: 20px 0;
+        }
+
+        .date, .time, .place {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 10px 0;
+            color: #01579B;
+        }
+
+        /* --- Cuenta Regresiva --- */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .countdown div {
+            background: var(--blanco);
+            padding: 10px;
+            border-radius: 12px;
+            min-width: 55px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 1px solid var(--azul-cielo);
+        }
+
+        .countdown span {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00ACC1;
+        }
+
+        .countdown small {
+            color: #78909C;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* --- Galerías --- */
+        .gallery-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        .gallery-list img {
+            width: 90%;
+            max-width: 400px;
+            border-radius: 20px;
+            border: 6px solid var(--blanco);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 500px;
+            margin: 30px auto;
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 4px solid var(--blanco);
+        }
+
+        /* --- Botón WhatsApp --- */
+        .btn-confirm {
+            display: inline-block;
+            padding: 15px 35px;
+            background: linear-gradient(135deg, var(--blanco), var(--plata-brillante));
+            color: #546E7A;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            margin: 30px 0;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            border: 1px solid #BDBDBD;
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .map-link {
+            color: #0097A7;
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 600px) {
+            .name-title { font-size: 3rem; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .gallery-grid img { height: 200px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="snow-container" id="snow"></div>
+
+    <audio id="bgMusic" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="envelope-wrapper">
+        <div class="envelope" id="envelope" onclick="openInvitation()">
+            <div class="envelope-text">UNA INVITACIÓN MÁGICA...</div>
+            <div class="ice-seal">❄</div>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <div class="glass-container">
+            
+            <ul class="gallery-list">
+                <li><img src="foto1.jpg" alt="Renata 1"></li>
+                <li><img src="foto2.jpg" alt="Renata 2"></li>
+                <li><img src="foto3.jpg" alt="Renata 3"></li>
+            </ul>
+
+            <h1 class="name-title" id="renata-name">RENATA MAILEN</h1>
+
+            <p class="phrase">“¡Tres años de magia y alegría! Acompáñanos a celebrar el tercer cumpleaños de nuestra querida Renata.”</p>
+
+            <div class="info-section">
+                <div class="date">Sábado 9 de MAYO</div>
+                <div class="time">11:30 am</div>
+            </div>
+
+            <div class="countdown" id="timer">
+                <div><span id="days">00</span><br><small>Días</small></div>
+                <div><span id="hours">00</span><br><small>Hrs</small></div>
+                <div><span id="minutes">00</span><br><small>Min</small></div>
+                <div><span id="seconds">00</span><br><small>Seg</small></div>
+            </div>
+
+            <div class="info-section">
+                <div class="place">LUGAR: QUINTA LA PROVIDENCIA</div>
+                <a href="https://maps.app.goo.gl/ZLr4VdkHuXtsddKw6" target="_blank" class="map-link">📍 Ver ubicación en mapa</a>
+            </div>
+            
+            <p style="color: #6a1b9a; font-weight: 600; margin-top: 25px; font-size: 1.1rem;">
+                🌊 ¡Habrá piscina, así que trae tu traje de baño!
+            </p>
+
+            <div class="gallery-grid">
+                <img src="foto4.jpg" alt="Gali 1">
+                <img src="foto5.jpg" alt="Gali 2">
+                <img src="foto6.jpg" alt="Gali 3">
+            </div>
+
+            <p style="margin-top: 30px; font-size: 0.9rem; color: #78909C;">Favor de confirmar asistencia por WhatsApp:</p>
+            <a href="https://wa.me/529672727381?text=Hola,%20confirmo%20mi%20asistencia%20al%20cumple%20de%20Renata%20(3%20años)" target="_blank" class="btn-confirm">
+                Confirmar al 967 272 7381
+            </a>
+
+            <p style="font-style: italic; color: #90A4AE; margin-top: 40px; padding: 0 20px; line-height: 1.6;">
+                “Será un día inolvidable y nos encantaría compartirlo contigo. ¡Te esperamos!”
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Función para abrir la carta
+        function openInvitation() {
+            document.getElementById('envelope').classList.add('open');
+            const music = document.getElementById('bgMusic');
+            music.play().catch(error => console.log("Música bloqueada."));
+
+            setTimeout(() => {
+                const wrapper = document.getElementById('envelope-wrapper');
+                wrapper.style.transition = 'opacity 0.5s ease';
+                wrapper.style.opacity = '0';
+                
+                setTimeout(() => {
+                    wrapper.style.display = 'none';
+                    const mainContent = document.getElementById('main-content');
+                    mainContent.style.display = 'block';
+                    setTimeout(() => window.scrollTo(0, 0), 50);
+                }, 500);
+            }, 1000);
+        }
+
+        // Efecto de aparición del nombre al hacer scroll
+        function checkScroll() {
+            const nameElement = document.getElementById('renata-name');
+            if (!nameElement) return;
+            const position = nameElement.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.2;
+            if(position < screenPosition) {
+                nameElement.classList.add('visible');
+                window.removeEventListener('scroll', checkScroll);
+            }
+        }
+        window.addEventListener('scroll', checkScroll);
+
+        // Cuenta Regresiva (Ajustada al 9 de mayo de 2026)
+        const targetDate = new Date('May 9, 2026 11:30:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const gap = targetDate - now;
+            if (gap < 0) {
+                document.getElementById('timer').innerHTML = "¡Es hoy!";
+                return;
+            }
+            const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
+            const textDay = Math.floor(gap / day);
+            const textHour = Math.floor((gap % day) / hour);
+            const textMinute = Math.floor((gap % hour) / minute);
+            const textSecond = Math.floor((gap % minute) / second);
+            document.getElementById('days').innerText = textDay < 10 ? '0' + textDay : textDay;
+            document.getElementById('hours').innerText = textHour < 10 ? '0' + textHour : textHour;
+            document.getElementById('minutes').innerText = textMinute < 10 ? '0' + textMinute : textMinute;
+            document.getElementById('seconds').innerText = textSecond < 10 ? '0' + textSecond : textSecond;
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Generador de Nieve Mágica
+        function createSnowflake() {
+            const snow = document.getElementById('snow');
+            if (!snow) return;
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = Math.random() > 0.5 ? '❄' : '❅';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+            snowflake.style.opacity = Math.random() * 0.7 + 0.3;
+            snowflake.style.animationDuration = Math.random() * 3 + 3 + 's';
+            snow.appendChild(snowflake);
+            setTimeout(() => snowflake.remove(), 6000);
+        }
+        setInterval(createSnowflake, 150);
+    </script>
+</body>
+</html>
